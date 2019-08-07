@@ -1,4 +1,6 @@
 import { getCurrenciesRate as getCurrenciesRateApi } from '../api'
+import { resolveUri } from 'expo-asset/build/AssetSources'
+import UsersDatabase from '../utils/usersDatabase'
 
 export const getCurrenciesRate = () => {
   return getCurrenciesRateApi().then(response => {
@@ -20,5 +22,18 @@ export const getCurrenciesRate = () => {
       timestamp: response.Timestamp,
       currencies,
     }
+  })
+}
+
+export const loginUser = ({ username, password }) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(function() {
+      const existingUser = UsersDatabase.find(user => user.username === username && user.password === password)
+      if (existingUser) {
+        resolve(existingUser)
+      } else {
+        reject('Wrong Credentials')
+      }
+    }, 1500)
   })
 }

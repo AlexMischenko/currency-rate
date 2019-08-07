@@ -11,9 +11,13 @@ import cs from './styleSheet'
 const CurrencyItem = ({ item: { id, charCode, name, value, previous }, index }) => {
   return (
     <View style={cs.currencyItemBlock}>
-      <Text style={cs.currencyItemTextBold}>{`${index}.`}</Text>
-      <Text style={cs.currencyItemTextBold}>{`(${charCode})`}</Text>
-      <Text style={cs.currencyItemText}>{name}</Text>
+      <View style={cs.currencyItemTextBlock}>
+        <Text style={cs.currencyItemTextBold}>{`${index}. `}</Text>
+        <Text style={cs.currencyItemTextBold}>{`(${charCode}) `}</Text>
+        <Text style={cs.currencyItemText} numberOfLines={1}>
+          {name}
+        </Text>
+      </View>
       <View style={cs.currencyItemRateBlock} onPress={this.handleLogout}>
         <Text style={cs.currencyItemPrevious}>{previous}</Text>
         <Text style={cs.currencyItemValue}>{value}</Text>

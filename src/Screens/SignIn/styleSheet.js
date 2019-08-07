@@ -8,7 +8,7 @@ export default StyleSheet.create({
   },
   formBlock: {
     width: 300,
-    height: 200,
+    height: 250,
     padding: 20,
     backgroundColor: '#efefef',
     borderRadius: 4,
@@ -20,6 +20,9 @@ export default StyleSheet.create({
   },
   formInput: {
     marginTop: 20,
+    height: 40,
+    padding: 10,
+    backgroundColor: '#ffffff',
   },
   formSubmitBtn: {
     alignSelf: 'center',

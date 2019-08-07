@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { View, Text, TextInput, TouchableOpacity, AsyncStorage, Alert } from 'react-native'
+import { StackActions, NavigationActions } from 'react-navigation'
 
 import { AUTHORIZATION_TOKEN } from '../../utils/constants'
 import { Pages } from '../../routes'
@@ -24,7 +25,11 @@ class SignIn extends PureComponent {
     if (login && password) {
       Alert.alert(`Login: ${login}`, `Password: ${password}`)
       await AsyncStorage.setItem(AUTHORIZATION_TOKEN, 'secret key')
-      navigation.navigate(Pages.currencyRate)
+      const resetAction = StackActions.reset({
+        index: 0,
+        actions: [NavigationActions.navigate({ routeName: Pages.currencyRate })],
+      })
+      navigation.dispatch(resetAction)
     } else {
       Alert.alert('All fields are required')
     }

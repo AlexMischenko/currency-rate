@@ -64,11 +64,10 @@ export default StyleSheet.create({
   },
   currencyItemPrevious: {
     fontSize: 17,
-    color: 'red',
     marginRight: 10,
   },
   currencyItemValue: {
     fontSize: 17,
-    color: '#3CB371',
+    fontWeight: '600',
   },
 })

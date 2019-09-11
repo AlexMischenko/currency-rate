@@ -17,3 +17,11 @@ export const pingCoinGecko = () => {
       console.error(error)
     })
 }
+
+export const getCrypoCurrenciesList = () => {
+  return fetch(`${apiUrl}/coins/list`)
+    .then(response => response.json())
+    .catch(error => {
+      console.error(error)
+    })
+}

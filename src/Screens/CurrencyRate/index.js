@@ -3,8 +3,7 @@ import PropTypes from 'prop-types'
 import { View, AsyncStorage, TouchableOpacity, Text, FlatList } from 'react-native'
 import { StackActions, NavigationActions } from 'react-navigation'
 
-import { pingCoinGecko } from '../../api'
-import { getCurrenciesRate } from '../../businessLogic'
+import { getCurrenciesRate, getCrypoCurrenciesList } from '../../businessLogic'
 import { AUTHORIZATION_TOKEN } from './../../utils/constants'
 import { Pages } from '../../routes'
 
@@ -19,19 +18,26 @@ const resetAction = StackActions.reset({
 })
 
 const CurrencyRate = ({ navigation }) => {
-  const [rateData, setRateData] = useState(null)
+  const [rateData, setRateData] = useState([])
+
+  useEffect(() => {
+    function checkAuthorizationToken() {
+      const token = AsyncStorage.getItem(AUTHORIZATION_TOKEN)
+      if (!token) {
+        return navigation.dispatch(resetAction)
+      }
+    }
+
+    checkAuthorizationToken()
+  })
 
   useEffect(() => {
     async function fetchCurrencies() {
       try {
-        const token = await AsyncStorage.getItem(AUTHORIZATION_TOKEN)
-        if (!token) {
-          return navigation.dispatch(resetAction)
-        }
         const rateData = await getCurrenciesRate()
         setRateData(rateData)
       } catch (error) {
-        console.log('TCL: CurrencyRate -> componentWillMount -> error', error)
+        console.log('TCL: CurrencyRate -> fetchCurrencies -> error', error)
       }
     }
 

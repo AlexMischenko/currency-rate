@@ -1,4 +1,4 @@
-import { getCurrenciesRate as getCurrenciesRateApi } from '../api'
+import { getCurrenciesRate as getCurrenciesRateApi, getCrypoCurrenciesList as getCrypoCurrenciesListApi } from '../api'
 import { resolveUri } from 'expo-asset/build/AssetSources'
 import UsersDatabase from '../utils/usersDatabase'
 
@@ -23,6 +23,10 @@ export const getCurrenciesRate = () => {
       currencies,
     }
   })
+}
+
+export const getCrypoCurrenciesList = () => {
+  return getCrypoCurrenciesListApi()
 }
 
 export const loginUser = ({ username, password }) => {

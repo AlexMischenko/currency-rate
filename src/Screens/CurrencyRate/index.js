@@ -1,8 +1,9 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { View, AsyncStorage, TouchableOpacity, Text, FlatList } from 'react-native'
 import { StackActions, NavigationActions } from 'react-navigation'
 
+import { pingCoinGecko } from '../../api'
 import { getCurrenciesRate } from '../../businessLogic'
 import { AUTHORIZATION_TOKEN } from './../../utils/constants'
 import { Pages } from '../../routes'
@@ -17,27 +18,27 @@ const resetAction = StackActions.reset({
   actions: [NavigationActions.navigate({ routeName: Pages.signIn })],
 })
 
-class CurrencyRate extends Component {
-  state = {
-    rateData: null,
-  }
+const CurrencyRate = ({ navigation }) => {
+  const [rateData, setRateData] = useState(null)
 
-  async componentDidMount() {
-    const { navigation } = this.props
-    try {
-      const token = await AsyncStorage.getItem(AUTHORIZATION_TOKEN)
-      if (!token) {
-        return navigation.dispatch(resetAction)
+  useEffect(() => {
+    async function fetchCurrencies() {
+      try {
+        const token = await AsyncStorage.getItem(AUTHORIZATION_TOKEN)
+        if (!token) {
+          return navigation.dispatch(resetAction)
+        }
+        const rateData = await getCurrenciesRate()
+        setRateData(rateData)
+      } catch (error) {
+        console.log('TCL: CurrencyRate -> componentWillMount -> error', error)
       }
-      const rateData = await getCurrenciesRate()
-      this.setState({ rateData })
-    } catch (error) {
-      console.log('TCL: CurrencyRate -> componentWillMount -> error', error)
     }
-  }
+
+    fetchCurrencies()
+  }, [navigation])
 
   handleLogout = async () => {
-    const { navigation } = this.props
     await AsyncStorage.removeItem(AUTHORIZATION_TOKEN)
     navigation.dispatch(resetAction)
   }
@@ -46,25 +47,21 @@ class CurrencyRate extends Component {
     return <CurrencyItem item={item} index={index} />
   }
 
-  render() {
-    const { rateData } = this.state
-
-    if (!rateData) {
-      return <LoaderView />
-    }
-
-    return (
-      <View style={cs.page}>
-        <View style={cs.headerBlock}>
-          <Text style={cs.headerTitle}>CurrencyRate</Text>
-          <TouchableOpacity style={cs.logoutBtn} onPress={this.handleLogout}>
-            <Text style={cs.logoutBtnText}>Log Out</Text>
-          </TouchableOpacity>
-        </View>
-        <FlatList data={rateData.currencies} keyExtractor={item => `${item.id}`} renderItem={this.renderItem} />
-      </View>
-    )
+  if (!rateData) {
+    return <LoaderView />
   }
+
+  return (
+    <View style={cs.page}>
+      <View style={cs.headerBlock}>
+        <Text style={cs.headerTitle}>CurrencyRate</Text>
+        <TouchableOpacity style={cs.logoutBtn} onPress={this.handleLogout}>
+          <Text style={cs.logoutBtnText}>Log Out</Text>
+        </TouchableOpacity>
+      </View>
+      <FlatList data={rateData.currencies} keyExtractor={item => `${item.id}`} renderItem={this.renderItem} />
+    </View>
+  )
 }
 
 CurrencyRate.navigationOptions = () => ({
@@ -74,6 +71,7 @@ CurrencyRate.navigationOptions = () => ({
 CurrencyRate.propTypes = {
   navigation: PropTypes.shape({
     navigate: PropTypes.func,
+    dispatch: PropTypes.func,
   }).isRequired,
 }
 

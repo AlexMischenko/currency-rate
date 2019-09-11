@@ -10,6 +10,7 @@ import cs from './styleSheet'
 
 const CurrencyItem = ({ item: { id, charCode, name, value, previous }, index }) => {
   const valueIncreased = value > previous
+  
   return (
     <View style={cs.currencyItemBlock}>
       <View style={cs.currencyItemTextBlock}>

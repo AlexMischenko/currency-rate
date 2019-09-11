@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { View, AsyncStorage, TouchableOpacity, Text, FlatList } from 'react-native'
+import { StyleSheet, View, AsyncStorage, TouchableOpacity, Text, FlatList } from 'react-native'
 import { StackActions, NavigationActions } from 'react-navigation'
 
 import { getCurrenciesRate, getCrypoCurrenciesRateList } from '../../businessLogic'
@@ -75,6 +75,7 @@ const CurrencyRate = ({ navigation }) => {
         data={rateData}
         keyExtractor={item => `${item.id}`}
         renderItem={({ item, index }) => <CurrencyItem item={item} index={index + 1} />}
+        ItemSeparatorComponent={() => <View style={cs.itemSeparator} />}
         onEndReached={fetchNextPage}
         ListFooterComponent={isLoading ? <LoaderView /> : null}
         onEndReachedThreshold={0.1}

@@ -1,3 +1,4 @@
+import axios from 'axios'
 import { config } from '../config'
 
 const { apiUrl } = config
@@ -18,9 +19,12 @@ export const pingCoinGecko = () => {
     })
 }
 
-export const getCrypoCurrenciesList = () => {
-  return fetch(`${apiUrl}/coins/list`)
-    .then(response => response.json())
+export const getCrypoCurrenciesRateList = params => {
+  return axios
+    .get(`${apiUrl}/coins/markets`, {
+      params,
+    })
+    .then(response => response.data)
     .catch(error => {
       console.error(error)
     })

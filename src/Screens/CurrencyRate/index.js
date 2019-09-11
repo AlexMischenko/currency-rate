@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { View, AsyncStorage, TouchableOpacity, Text, FlatList } from 'react-native'
 import { StackActions, NavigationActions } from 'react-navigation'
 
-import { getCurrenciesRate, getCrypoCurrenciesList } from '../../businessLogic'
+import { getCurrenciesRate, getCrypoCurrenciesRateList } from '../../businessLogic'
 import { AUTHORIZATION_TOKEN } from './../../utils/constants'
 import { Pages } from '../../routes'
 
@@ -12,6 +12,7 @@ import CurrencyItem from './currencyItem'
 
 import cs from './styleSheet'
 
+const ITEMS_PER_PAGE = 15
 const resetAction = StackActions.reset({
   index: 0,
   actions: [NavigationActions.navigate({ routeName: Pages.signIn })],
@@ -19,6 +20,8 @@ const resetAction = StackActions.reset({
 
 const CurrencyRate = ({ navigation }) => {
   const [rateData, setRateData] = useState([])
+  const [requestPage, setRequestPage] = useState(1)
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     function checkAuthorizationToken() {
@@ -34,26 +37,29 @@ const CurrencyRate = ({ navigation }) => {
   useEffect(() => {
     async function fetchCurrencies() {
       try {
-        const rateData = await getCurrenciesRate()
-        setRateData(rateData)
+        setIsLoading(true)
+        const cryptoRate = await getCrypoCurrenciesRateList({ page: requestPage, perPage: ITEMS_PER_PAGE })
+        console.log('TCL: fetchCurrencies -> cryptoRate', cryptoRate)
+        setRateData(prevRateData => [...prevRateData, ...cryptoRate])
+        setIsLoading(false)
       } catch (error) {
         console.log('TCL: CurrencyRate -> fetchCurrencies -> error', error)
       }
     }
 
     fetchCurrencies()
-  }, [navigation])
+  }, [requestPage])
 
   handleLogout = async () => {
     await AsyncStorage.removeItem(AUTHORIZATION_TOKEN)
     navigation.dispatch(resetAction)
   }
 
-  renderItem = ({ item, index }) => {
-    return <CurrencyItem item={item} index={index} />
+  fetchNextPage = () => {
+    setRequestPage(prevPage => prevPage + 1)
   }
 
-  if (!rateData) {
+  if (rateData.length < 1) {
     return <LoaderView />
   }
 
@@ -65,7 +71,14 @@ const CurrencyRate = ({ navigation }) => {
           <Text style={cs.logoutBtnText}>Log Out</Text>
         </TouchableOpacity>
       </View>
-      <FlatList data={rateData.currencies} keyExtractor={item => `${item.id}`} renderItem={this.renderItem} />
+      <FlatList
+        data={rateData}
+        keyExtractor={item => `${item.id}`}
+        renderItem={({ item, index }) => <CurrencyItem item={item} index={index + 1} />}
+        onEndReached={fetchNextPage}
+        ListFooterComponent={isLoading ? <LoaderView /> : null}
+        onEndReachedThreshold={0.1}
+      />
     </View>
   )
 }

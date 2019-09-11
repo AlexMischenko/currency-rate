@@ -62,12 +62,12 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  currencyItemPrevious: {
-    fontSize: 17,
-    marginRight: 10,
-  },
   currencyItemValue: {
     fontSize: 17,
     fontWeight: '600',
+    marginRight: 10,
+  },
+  currencyItemPrevious: {
+    fontSize: 17,
   },
 })

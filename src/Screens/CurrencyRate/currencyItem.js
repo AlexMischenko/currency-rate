@@ -8,9 +8,9 @@ import { Pages } from '../../routes'
 
 import cs from './styleSheet'
 
-const CurrencyItem = ({ item: { id, charCode, name, value, previous }, index }) => {
-  const valueIncreased = value > previous
-  
+const CurrencyItem = ({ item: { id, charCode, name, value, priceChange24h }, index }) => {
+  const valueIncreased = priceChange24h >= 0
+
   return (
     <View style={cs.currencyItemBlock}>
       <View style={cs.currencyItemTextBlock}>
@@ -21,8 +21,8 @@ const CurrencyItem = ({ item: { id, charCode, name, value, previous }, index }) 
         </Text>
       </View>
       <View style={cs.currencyItemRateBlock} onPress={this.handleLogout}>
-        <Text style={[cs.currencyItemPrevious, { color: valueIncreased ? 'red' : '#3CB371' }]}>{previous}</Text>
-        <Text style={[cs.currencyItemValue, { color: valueIncreased ? '#3CB371' : 'red' }]}>{value}</Text>
+        <Text style={[cs.currencyItemValue, { color: '#5E82BC' }]}>{value}</Text>
+        <Text style={[cs.currencyItemPrevious, { color: valueIncreased ? '#3CB371' : 'red' }]}>{priceChange24h}</Text>
       </View>
     </View>
   )
@@ -34,7 +34,7 @@ CurrencyItem.propTypes = {
     charCode: PropTypes.string,
     name: PropTypes.string,
     value: PropTypes.number,
-    previous: PropTypes.number,
+    priceChange24h: PropTypes.number,
   }).isRequired,
   index: PropTypes.number,
 }

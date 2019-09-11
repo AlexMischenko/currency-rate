@@ -1,6 +1,7 @@
 import {
   getCurrenciesRate as getCurrenciesRateApi,
   getCrypoCurrenciesRateList as getCrypoCurrenciesRateListApi,
+  getCrypoCurrencyDetails as getCrypoCurrencyDetailsApi,
 } from '../api'
 import { resolveUri } from 'expo-asset/build/AssetSources'
 import UsersDatabase from '../utils/usersDatabase'
@@ -45,6 +46,16 @@ export const getCrypoCurrenciesRateList = ({ perPage, page }) => {
       image: currencyInfo.image,
       priceChange24h: currencyInfo.price_change_24h,
     }))
+  })
+}
+
+export const getCrypoCurrencyDetails = currancyId => {
+  return getCrypoCurrencyDetailsApi(currancyId, {
+    localization: 'false',
+    tickers: false,
+    market_data: true,
+    community_data: true,
+    developer_data: true,
   })
 }
 

@@ -8,12 +8,12 @@ import { Pages } from '../../routes'
 
 import cs from './styleSheet'
 
-const CurrencyItem = ({ item: { id, charCode, name, value, priceChange24h, image }, index }) => {
+const CurrencyItem = ({ item: { id, charCode, name, value, priceChange24h, image }, index, onPress }) => {
   const valueIncreased = priceChange24h >= 0
   const priceChangeColor = { color: valueIncreased ? '#3CB371' : 'red' }
 
   return (
-    <View style={cs.currencyItemBlock}>
+    <TouchableOpacity style={cs.currencyItemBlock} onPress={onPress}>
       <View style={cs.currencyItemTextBlock}>
         <Text style={cs.currencyItemTextBold}>{`${index}. `}</Text>
         <Image style={cs.currencyItemIcon} source={{ uri: image }} />
@@ -26,7 +26,7 @@ const CurrencyItem = ({ item: { id, charCode, name, value, priceChange24h, image
         <Text style={cs.currencyItemValue}>{value}</Text>
         <Text style={[cs.currencyItemPrevious, priceChangeColor]}>{priceChange24h}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   )
 }
 
@@ -40,6 +40,7 @@ CurrencyItem.propTypes = {
     image: PropTypes.string,
   }).isRequired,
   index: PropTypes.number,
+  onPress: PropTypes.func.isRequired,
 }
 
 export default CurrencyItem

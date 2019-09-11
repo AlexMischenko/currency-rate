@@ -29,3 +29,14 @@ export const getCrypoCurrenciesRateList = params => {
       console.error(error)
     })
 }
+
+export const getCrypoCurrencyDetails = (coinId, params) => {
+  return axios
+    .get(`${apiUrl}/coins/${coinId}`, {
+      params,
+    })
+    .then(response => response.data)
+    .catch(error => {
+      console.error(error)
+    })
+}

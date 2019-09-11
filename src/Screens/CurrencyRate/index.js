@@ -39,7 +39,6 @@ const CurrencyRate = ({ navigation }) => {
       try {
         setIsLoading(true)
         const cryptoRate = await getCrypoCurrenciesRateList({ page: requestPage, perPage: ITEMS_PER_PAGE })
-        console.log('TCL: fetchCurrencies -> cryptoRate', cryptoRate)
         setRateData(prevRateData => [...prevRateData, ...cryptoRate])
         setIsLoading(false)
       } catch (error) {
@@ -50,13 +49,17 @@ const CurrencyRate = ({ navigation }) => {
     fetchCurrencies()
   }, [requestPage])
 
-  handleLogout = async () => {
+  const handleLogout = async () => {
     await AsyncStorage.removeItem(AUTHORIZATION_TOKEN)
     navigation.dispatch(resetAction)
   }
 
-  fetchNextPage = () => {
+  const fetchNextPage = () => {
     setRequestPage(prevPage => prevPage + 1)
+  }
+
+  const openCurrencyDetail = currencyId => () => {
+    navigation.navigate(Pages.currencyDetail, { currencyId })
   }
 
   if (rateData.length < 1) {
@@ -74,7 +77,9 @@ const CurrencyRate = ({ navigation }) => {
       <FlatList
         data={rateData}
         keyExtractor={item => `${item.id}`}
-        renderItem={({ item, index }) => <CurrencyItem item={item} index={index + 1} />}
+        renderItem={({ item, index }) => (
+          <CurrencyItem item={item} index={index + 1} onPress={openCurrencyDetail(item.id)} />
+        )}
         ItemSeparatorComponent={() => <View style={cs.itemSeparator} />}
         onEndReached={fetchNextPage}
         ListFooterComponent={isLoading ? <LoaderView /> : null}

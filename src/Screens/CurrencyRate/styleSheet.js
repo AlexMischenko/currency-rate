@@ -40,13 +40,15 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     height: 50,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: '#7B7B7B',
   },
   currencyItemTextBlock: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  currencyItemIcon: {
+    height: 17,
+    width: 17,
   },
   currencyItemTextBold: {
     fontSize: 17,
@@ -62,12 +64,19 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  currencyItemPrevious: {
-    fontSize: 17,
-    marginRight: 10,
-  },
   currencyItemValue: {
+    color: '#5E82BC',
     fontSize: 17,
     fontWeight: '600',
+    marginRight: 3,
+  },
+  currencyItemPrevious: {
+    fontSize: 17,
+  },
+
+  itemSeparator: {
+    height: StyleSheet.hairlineWidth,
+    width: '100%',
+    backgroundColor: '#7B7B7B',
   },
 })

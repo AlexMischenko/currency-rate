@@ -4,30 +4,45 @@ import { StyleSheet, ScrollView, View, TouchableOpacity, Text } from 'react-nati
 
 import { getCrypoCurrencyDetails } from '../../businessLogic'
 
+import LoaderView from '../../components/LoaderView'
 import CollapsibleView from '../../components/CollapsibleView'
+import WebDeepLink from '../../components/WebDeepLink'
 import HeaderDescription from './HeaderDescription'
 
 import cs from './styleSheet'
 
 const CurrencyDetail = ({ navigation }) => {
-  const [details, setDetails] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
+  const [currencyData, setCurrencyData] = useState(null)
   const currencyId = navigation.getParam('currencyId')
 
   useEffect(() => {
     async function getDetails() {
+      setIsLoading(true)
       const fetchedDetails = await getCrypoCurrencyDetails(currencyId)
       console.log('TCL: getDetails -> fetchedDetails', fetchedDetails)
-      setDetails(fetchedDetails)
+      setCurrencyData(fetchedDetails)
+      setIsLoading(false)
     }
 
     getDetails()
   }, [currencyId])
 
+  if (isLoading || !currencyData) {
+    return <LoaderView />
+  }
+
+  const { homepage: homepageLink, officialForum: officialForumLink } = currencyData.links
+
   return (
-    <ScrollView style={cs.page}>
-      {details && <HeaderDescription {...details} />}
-      <CollapsibleView headerTitle="Description JSON">
-        <Text style={{}}>{JSON.stringify(details)}</Text>
+    <ScrollView style={cs.container} contentContainerStyle={cs.page}>
+      <HeaderDescription style={cs.headerDescriptionBlock} {...currencyData} />
+      <CollapsibleView style={cs.collapsibleBlock} headerTitle="Description">
+        <Text style={cs.collapesedBlockText}>{currencyData.description}</Text>
+      </CollapsibleView>
+      <CollapsibleView style={cs.collapsibleBlock} headerTitle="Links">
+        {homepageLink ? <WebDeepLink href={homepageLink} text="Homepage: " /> : null}
+        {officialForumLink ? <WebDeepLink href={officialForumLink} text="Official Forum: " /> : null}
       </CollapsibleView>
     </ScrollView>
   )

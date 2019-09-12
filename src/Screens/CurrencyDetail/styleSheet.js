@@ -1,11 +1,14 @@
 import { StyleSheet } from 'react-native'
 
 export default StyleSheet.create({
-  page: {
+  container: {
     flex: 1,
   },
+  page: {
+    paddingTop: 10,
+  },
 
-  headerDescriptionBlock: {
+  headerBlock: {
     flexDirection: 'row',
   },
 
@@ -33,5 +36,15 @@ export default StyleSheet.create({
   cryptoDateText: {
     fontSize: 11,
     fontWeight: '200',
+  },
+
+  headerDescriptionBlock: {
+    paddingLeft: 10,
+    marginBottom: 5,
+  },
+  collapsibleBlock: {
+    paddingLeft: 5,
+    paddingRight: 5,
+    paddingBottom: 5,
   },
 })

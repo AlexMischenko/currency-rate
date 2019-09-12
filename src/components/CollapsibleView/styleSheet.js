@@ -8,7 +8,9 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    height: 40,
+    height: 50,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: 'black',
   },
   headerTitleText: {
     fontSize: 19,
@@ -17,6 +19,6 @@ export default StyleSheet.create({
   headerToggleBtn: {},
   expendedBlock: {
     flex: 1,
-    padding: 10,
+    padding: 5,
   },
 })

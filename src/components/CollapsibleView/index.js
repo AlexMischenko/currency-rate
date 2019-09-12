@@ -8,7 +8,7 @@ import cs from './styleSheet'
 const CollapsibleView = ({
   children,
   headerTitle,
-  collapsibleViewStyle,
+  style,
   headerContainerStyle,
   headerTitleStyle,
   expendedContainerStyle,
@@ -18,11 +18,11 @@ const CollapsibleView = ({
   const toggleCollapse = () => setExpaneded(wasExpanded => !wasExpanded)
 
   return (
-    <View style={[cs.collapsibleViewBlock, collapsibleViewStyle]}>
+    <View style={[cs.collapsibleViewBlock, style]}>
       <View style={[cs.headerBlock, headerContainerStyle]}>
         <Text style={[cs.headerTitleText, headerTitleStyle]}>{headerTitle}</Text>
         <TouchableOpacity style={cs.headerToggleBtn} onPress={toggleCollapse}>
-          <AntDesign name={isExpanded ? 'caretup' : 'caretdown'} size={25} color="black" />
+          <AntDesign name={isExpanded ? 'caretup' : 'caretdown'} size={20} color="black" />
         </TouchableOpacity>
       </View>
       {isExpanded && <View style={[cs.expendedBlock, expendedContainerStyle]}>{children}</View>}
@@ -33,14 +33,14 @@ const CollapsibleView = ({
 CollapsibleView.propTypes = {
   headerTitle: PropTypes.string,
   children: PropTypes.any,
-  collapsibleViewStyle: PropTypes.object,
+  style: PropTypes.object,
   headerContainerStyle: PropTypes.object,
   headerTitleStyle: PropTypes.object,
   expendedContainerStyle: PropTypes.object,
 }
 
 CollapsibleView.defaultProps = {
-  collapsibleViewStyle: {},
+  style: {},
   headerContainerStyle: {},
   headerTitleStyle: {},
   expendedContainerStyle: {},

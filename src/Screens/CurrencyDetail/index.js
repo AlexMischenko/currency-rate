@@ -4,6 +4,11 @@ import { StyleSheet, ScrollView, View, TouchableOpacity, Text } from 'react-nati
 
 import { getCrypoCurrencyDetails } from '../../businessLogic'
 
+import CollapsibleView from '../../components/CollapsibleView'
+import HeaderDescription from './HeaderDescription'
+
+import cs from './styleSheet'
+
 const CurrencyDetail = ({ navigation }) => {
   const [details, setDetails] = useState(null)
   const currencyId = navigation.getParam('currencyId')
@@ -11,17 +16,19 @@ const CurrencyDetail = ({ navigation }) => {
   useEffect(() => {
     async function getDetails() {
       const fetchedDetails = await getCrypoCurrencyDetails(currencyId)
-      console.log('TCL: getDetails -> details', details)
+      console.log('TCL: getDetails -> fetchedDetails', fetchedDetails)
       setDetails(fetchedDetails)
     }
 
     getDetails()
-  })
+  }, [currencyId])
 
   return (
-    <ScrollView style={{ flex: 1 }}>
-      <Text style={{}}>{`CurrencyDetail Page ${currencyId}`}</Text>
-      <Text style={{}}>{JSON.stringify(details)}</Text>
+    <ScrollView style={cs.page}>
+      {details && <HeaderDescription {...details} />}
+      <CollapsibleView headerTitle="Description JSON">
+        <Text style={{}}>{JSON.stringify(details)}</Text>
+      </CollapsibleView>
     </ScrollView>
   )
 }

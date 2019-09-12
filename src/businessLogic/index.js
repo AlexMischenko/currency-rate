@@ -37,8 +37,8 @@ export const getCrypoCurrenciesRateList = ({ perPage, page }) => {
     sparkline: false,
     per_page: perPage,
     page,
-  }).then(cryptoCurrenciesList => {
-    return cryptoCurrenciesList.map(currencyInfo => ({
+  }).then(response => {
+    return response.map(currencyInfo => ({
       id: currencyInfo.id,
       charCode: currencyInfo.symbol,
       name: currencyInfo.name,
@@ -56,7 +56,19 @@ export const getCrypoCurrencyDetails = currancyId => {
     market_data: true,
     community_data: true,
     developer_data: true,
-  })
+  }).then(response => ({
+    id: response.id,
+    symbol: response.symbol,
+    name: response.name,
+    description: response.description.en,
+    image: response.image.large,
+    genesisDate: response.genesis_date,
+    marketCapRank: response.market_cap_rank,
+    links: {
+      homepage: response.links.homepage[0],
+      officialForum: response.links.official_forum_url[0],
+    },
+  }))
 }
 
 export const loginUser = ({ username, password }) => {

@@ -19,12 +19,12 @@ const CollapsibleView = ({
 
   return (
     <View style={[cs.collapsibleViewBlock, style]}>
-      <View style={[cs.headerBlock, headerContainerStyle]}>
-        <Text style={[cs.headerTitleText, headerTitleStyle]}>{headerTitle}</Text>
-        <TouchableOpacity style={cs.headerToggleBtn} onPress={toggleCollapse}>
+      <TouchableOpacity style={cs.headerToggleBtn} onPress={toggleCollapse}>
+        <View style={[cs.headerBlock, headerContainerStyle]}>
+          <Text style={[cs.headerTitleText, headerTitleStyle]}>{headerTitle}</Text>
           <AntDesign name={isExpanded ? 'caretup' : 'caretdown'} size={20} color="black" />
-        </TouchableOpacity>
-      </View>
+        </View>
+      </TouchableOpacity>
       {isExpanded && <View style={[cs.expendedBlock, expendedContainerStyle]}>{children}</View>}
     </View>
   )

@@ -1,9 +1,9 @@
 {
   "devToolsPort": 19002,
   "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 8141,
-  "expoServerNgrokUrl": "https://mj-imp.anonymous.currencyrate.exp.direct",
-  "packagerNgrokUrl": "https://packager.mj-imp.anonymous.currencyrate.exp.direct",
-  "ngrokPid": 8149
+  "packagerPort": 19008,
+  "packagerPid": 77513,
+  "expoServerNgrokUrl": "https://pq-9e8.anonymous.currency-rate.exp.direct",
+  "packagerNgrokUrl": "https://packager.pq-9e8.anonymous.currency-rate.exp.direct",
+  "ngrokPid": 77521
 }

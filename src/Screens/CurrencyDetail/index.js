@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { StyleSheet, ScrollView, View, TouchableOpacity, Text } from 'react-native'
+import HTMLView from 'react-native-htmlview'
 
 import { getCrypoCurrencyDetails } from '../../businessLogic'
 
@@ -20,7 +21,6 @@ const CurrencyDetail = ({ navigation }) => {
     async function getDetails() {
       setIsLoading(true)
       const fetchedDetails = await getCrypoCurrencyDetails(currencyId)
-      console.log('TCL: getDetails -> fetchedDetails', fetchedDetails)
       setCurrencyData(fetchedDetails)
       setIsLoading(false)
     }
@@ -38,7 +38,7 @@ const CurrencyDetail = ({ navigation }) => {
     <ScrollView style={cs.container} contentContainerStyle={cs.page}>
       <HeaderDescription style={cs.headerDescriptionBlock} {...currencyData} />
       <CollapsibleView style={cs.collapsibleBlock} headerTitle="Description">
-        <Text style={cs.collapesedBlockText}>{currencyData.description}</Text>
+        <HTMLView value={currencyData.description} />
       </CollapsibleView>
       <CollapsibleView style={cs.collapsibleBlock} headerTitle="Links">
         {homepageLink ? <WebDeepLink href={homepageLink} text="Homepage: " /> : null}

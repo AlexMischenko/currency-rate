@@ -3,23 +3,7 @@ import { config } from '../config'
 
 const { apiUrl } = config
 
-export const getCurrenciesRate = () => {
-  return fetch('https://www.cbr-xml-daily.ru/daily_json.js')
-    .then(response => response.json())
-    .catch(error => {
-      console.error(error)
-    })
-}
-
-export const pingCoinGecko = () => {
-  return fetch(`${apiUrl}/ping`)
-    .then(response => response.json())
-    .catch(error => {
-      console.error(error)
-    })
-}
-
-export const getCrypoCurrenciesRateList = params => {
+export const getCurrenciesRateList = params => {
   return axios
     .get(`${apiUrl}/coins/markets`, {
       params,
@@ -30,7 +14,7 @@ export const getCrypoCurrenciesRateList = params => {
     })
 }
 
-export const getCrypoCurrencyDetails = (coinId, params) => {
+export const getCurrencyDetails = (coinId, params) => {
   return axios
     .get(`${apiUrl}/coins/${coinId}`, {
       params,

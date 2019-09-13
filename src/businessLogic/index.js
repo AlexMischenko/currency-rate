@@ -1,7 +1,6 @@
 import {
-  getCurrenciesRate as getCurrenciesRateApi,
-  getCrypoCurrenciesRateList as getCrypoCurrenciesRateListApi,
-  getCrypoCurrencyDetails as getCrypoCurrencyDetailsApi,
+  getCurrenciesRateList as getCurrenciesRateListApi,
+  getCurrencyDetails as getCurrencyDetailsApi,
   getCurrencyMarketChart as getCurrencyMarketChartApi,
 } from '../api'
 import { resolveUri } from 'expo-asset/build/AssetSources'
@@ -20,31 +19,8 @@ export const loginUser = ({ username, password }) => {
   })
 }
 
-export const getCurrenciesRate = () => {
-  return getCurrenciesRateApi().then(response => {
-    let fetchedCurrencies = []
-
-    for (let currency in response.Valute) {
-      fetchedCurrencies.push(response.Valute[currency])
-    }
-
-    const currencies = fetchedCurrencies.map(currency => ({
-      id: currency.ID,
-      charCode: currency.CharCode,
-      name: currency.Name,
-      value: currency.Value,
-      previous: currency.Previous,
-    }))
-
-    return {
-      timestamp: response.Timestamp,
-      currencies,
-    }
-  })
-}
-
-export const getCrypoCurrenciesRateList = ({ perPage, page }) => {
-  return getCrypoCurrenciesRateListApi({
+export const getCurrenciesRateList = ({ perPage, page }) => {
+  return getCurrenciesRateListApi({
     vs_currency: 'usd',
     order: 'market_cap_desc',
     price_change_percentage: '24h',
@@ -63,8 +39,8 @@ export const getCrypoCurrenciesRateList = ({ perPage, page }) => {
   })
 }
 
-export const getCrypoCurrencyDetails = currancyId => {
-  return getCrypoCurrencyDetailsApi(currancyId, {
+export const getCurrencyDetails = currancyId => {
+  return getCurrencyDetailsApi(currancyId, {
     localization: 'false',
     tickers: false,
     market_data: true,

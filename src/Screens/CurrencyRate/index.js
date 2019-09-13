@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { StyleSheet, View, AsyncStorage, TouchableOpacity, Text, FlatList } from 'react-native'
 import { StackActions, NavigationActions } from 'react-navigation'
 
-import { getCurrenciesRate, getCrypoCurrenciesRateList } from '../../businessLogic'
+import { getCurrenciesRate, getCurrenciesRateList } from '../../businessLogic'
 import { AUTHORIZATION_TOKEN } from './../../utils/constants'
 import { Pages } from '../../routes'
 
@@ -38,7 +38,7 @@ const CurrencyRate = ({ navigation }) => {
     async function fetchCurrencies() {
       try {
         setIsLoading(true)
-        const cryptoRate = await getCrypoCurrenciesRateList({ page: requestPage, perPage: ITEMS_PER_PAGE })
+        const cryptoRate = await getCurrenciesRateList({ page: requestPage, perPage: ITEMS_PER_PAGE })
         setRateData(prevRateData => [...prevRateData, ...cryptoRate])
         setIsLoading(false)
       } catch (error) {

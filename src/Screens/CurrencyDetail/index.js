@@ -8,7 +8,7 @@ import { getCrypoCurrencyDetails } from '../../businessLogic'
 import LoaderView from '../../components/LoaderView'
 import CollapsibleView from '../../components/CollapsibleView'
 import WebDeepLink from '../../components/WebDeepLink'
-import HeaderDescription from './HeaderDescription'
+import HeaderDescription from './components/HeaderDescription'
 
 import cs from './styleSheet'
 

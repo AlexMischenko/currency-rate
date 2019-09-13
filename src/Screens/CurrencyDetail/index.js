@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { StyleSheet, ScrollView, View, TouchableOpacity, Text } from 'react-native'
 import HTMLView from 'react-native-htmlview'
 
-import { getCrypoCurrencyDetails } from '../../businessLogic'
+import { getCrypoCurrencyDetails, getCurrencyMarketChart } from '../../businessLogic'
 
 import LoaderView from '../../components/LoaderView'
 import CollapsibleView from '../../components/CollapsibleView'
@@ -25,8 +25,21 @@ const CurrencyDetail = ({ navigation }) => {
       setIsLoading(false)
     }
 
+    async function getChartData() {
+      const chartData = await getCurrencyMarketChart()
+    }
+
     getDetails()
   }, [currencyId])
+
+  useEffect(() => {
+    async function getChartData() {
+      const chartData = await getCurrencyMarketChart(currencyData.id)
+      console.log('TCL: getChartData -> chartData', chartData)
+    }
+
+    if (currencyData) getChartData()
+  }, [currencyData])
 
   if (isLoading || !currencyData) {
     return <LoaderView />

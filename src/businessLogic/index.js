@@ -2,9 +2,23 @@ import {
   getCurrenciesRate as getCurrenciesRateApi,
   getCrypoCurrenciesRateList as getCrypoCurrenciesRateListApi,
   getCrypoCurrencyDetails as getCrypoCurrencyDetailsApi,
+  getCurrencyMarketChart as getCurrencyMarketChartApi,
 } from '../api'
 import { resolveUri } from 'expo-asset/build/AssetSources'
 import UsersDatabase from '../utils/usersDatabase'
+
+export const loginUser = ({ username, password }) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(function() {
+      const existingUser = UsersDatabase.find(user => user.username === username && user.password === password)
+      if (existingUser) {
+        resolve(existingUser)
+      } else {
+        reject('Wrong Credentials')
+      }
+    }, 1500)
+  })
+}
 
 export const getCurrenciesRate = () => {
   return getCurrenciesRateApi().then(response => {
@@ -71,15 +85,16 @@ export const getCrypoCurrencyDetails = currancyId => {
   }))
 }
 
-export const loginUser = ({ username, password }) => {
-  return new Promise((resolve, reject) => {
-    setTimeout(function() {
-      const existingUser = UsersDatabase.find(user => user.username === username && user.password === password)
-      if (existingUser) {
-        resolve(existingUser)
-      } else {
-        reject('Wrong Credentials')
-      }
-    }, 1500)
+export const getCurrencyMarketChart = currancyId => {
+  return getCurrencyMarketChartApi(currancyId, {
+    vs_currency: 'usd',
+    days: '15',
+  }).then(response => {
+    return response.prices.map(price => ({
+      timestamp: price[0],
+      value: price[1],
+      date: `${new Date(price[0]).toString()}`,
+      price: `${price[1]}$`,
+    }))
   })
 }

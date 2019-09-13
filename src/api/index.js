@@ -40,3 +40,14 @@ export const getCrypoCurrencyDetails = (coinId, params) => {
       console.error(error)
     })
 }
+
+export const getCurrencyMarketChart = (coinId, params) => {
+  return axios
+    .get(`${apiUrl}/coins/${coinId}/market_chart`, {
+      params,
+    })
+    .then(response => response.data)
+    .catch(error => {
+      console.error(error)
+    })
+}
